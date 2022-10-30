@@ -42,6 +42,7 @@ function App() {
 					items={searchResult.items}
 					loading={loading}
 					lastBookElementRef={lastBookElementRef}
+					hasMore={hasMore}
 				/>
 			</div>
 		</div>

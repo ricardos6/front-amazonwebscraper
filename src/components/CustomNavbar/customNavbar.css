@@ -8,10 +8,10 @@
 		rgb(93, 129, 177) 0%,
 		rgb(164, 60, 173) 100%
 	); */
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+	display: flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	flex-direction: column !important;
 	gap: 10px;
 }
 

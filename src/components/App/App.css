@@ -1,7 +1,7 @@
 .app__main {
 	--navbar-height: 120px;
 	--filters-height: 50px;
-	--leftPanel-width: 330px;
+	--leftPanel-width: 280px;
 	--color-custom-navbar: rgb(155, 118, 156);
 }
 

@@ -71,8 +71,7 @@ export const useElasticSearch = (query, page) => {
 					],
 					aggsInfo: result.aggregations,
 				}));
-				console.log(result.hits.total.value);
-				setHasMore(result.hits.total.value > 0);
+				setHasMore(page * 10 + 10 < result.hits.total.value);
 				setLoading(false);
 			})
 			.catch((err) => setError(err));
