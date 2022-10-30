@@ -44,7 +44,12 @@ export const CatalogCard = ({ item, lastBookElementRef, loader }) => {
 					<>
 						<div className="catalog__card-footer-rating">
 							{item.rating ? (
-								<Rating value={item.rating} precision={0.1} readOnly />
+								<Rating
+									value={item.rating}
+									precision={0.1}
+									readOnly
+									size="small"
+								/>
 							) : (
 								"Not available"
 							)}
