@@ -10,15 +10,13 @@ const aggregationsMapping = {
 };
 
 export const LeftPanel = ({ aggregations }) => {
-	console.log(aggregations);
-
 	return (
 		<div className="left-panel__main">
 			<div className="left-panel__wrapper">
 				<div className="left-panel__inputsWrapper">
 					{Object.entries(aggregations).map(([key, value]) => {
 						return (
-							<div className="left-panel__agg-wrapper">
+							<div key={key} className="left-panel__agg-wrapper">
 								<div className="left-panel__agg-title">
 									{aggregationsMapping[key]}
 								</div>
@@ -28,6 +26,7 @@ export const LeftPanel = ({ aggregations }) => {
 											type={"checkbox"}
 											id={`default-${agg.key}`}
 											label={`${agg.key}`}
+											key={agg.key}
 										/>
 									))}
 								</div>

@@ -60,7 +60,7 @@ export const useElasticSearch = (query, page) => {
 						},
 				  };
 		setLoading(true);
-		findAllFields({ ...params, ...aggregations })
+		findAllFields({ ...params, ...aggregations, from: page * 10, size: 10 })
 			.then((result) => {
 				setSearchResult((prevItems) => ({
 					items: [
@@ -71,8 +71,8 @@ export const useElasticSearch = (query, page) => {
 					],
 					aggsInfo: result.aggregations,
 				}));
-				// setItems(result.hits.hits.map((h) => h._source));
-				// setHasMore(true); // TODO:
+				console.log(result.hits.total.value);
+				setHasMore(result.hits.total.value > 0);
 				setLoading(false);
 			})
 			.catch((err) => setError(err));

@@ -10,13 +10,7 @@
 
 .catalog-loader {
 	display: flex;
-	position: fixed;
-	top: calc(var(--navbar-height) + var(--filters-height));
-	bottom: 0;
-	right: 0;
-	overflow-y: scroll;
-	width: calc(100% - var(--leftPanel-width));
-	/* padding: 12px; */
+	width: 50%;
 	align-items: center;
 	justify-content: center;
 }

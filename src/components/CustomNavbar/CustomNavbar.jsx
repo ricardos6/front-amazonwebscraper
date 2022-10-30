@@ -4,12 +4,13 @@ import Form from "react-bootstrap/Form";
 import "./customNavbar.css";
 import { useRef } from "react";
 
-export const CustomNavbar = ({ setQuery }) => {
+export const CustomNavbar = ({ setQuery, setPage }) => {
 	const searchKeywords = useRef("");
 
 	const handleSearch = (e) => {
 		e.preventDefault();
 		setQuery(searchKeywords.current);
+		setPage(0);
 	};
 
 	return (
