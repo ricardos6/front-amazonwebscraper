@@ -1,0 +1,5 @@
+.app__main__more-filters {
+	margin-top: var(--navbar-height);
+	height: var(--filters-height);
+	background-color: red;
+}

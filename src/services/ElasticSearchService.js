@@ -5,10 +5,11 @@ export async function findAllFields(params) {
 	return fetch(`${APP_URL}/_search`, {
 		method: "POST", // POST, PUT, DELETE...
 		mode: "cors", // no-cors, *cors, same-origin
+		body: JSON.stringify(params),
+		headers: {
+			"Content-Type": "application/json",
+		},
 	})
 		.then((res) => res.json())
-		.then((res) => {
-			console.log(res);
-			return res.data;
-		});
+		.then((res) => res);
 }

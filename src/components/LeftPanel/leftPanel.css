@@ -1,7 +1,6 @@
 .left-panel__main {
-	margin-top: 60px;
+	/* margin-top: var(--navbar-height); */
 	width: var(--leftPanel-width);
-	position: fixed;
 	z-index: 1;
 	top: 0;
 	left: 0;
@@ -19,5 +18,14 @@
 }
 
 .left-panel__inputsWrapper {
-	padding: 10px;
+	padding: 20px;
+}
+
+.left-panel__agg-title {
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.left-panel__agg-wrapper {
+	margin-bottom: 20px;
 }

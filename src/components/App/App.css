@@ -1,5 +1,11 @@
 .app__main {
-	--navbar-height: 60px;
+	--navbar-height: 120px;
+	--filters-height: 50px;
 	--leftPanel-width: 330px;
-	--color-custom-navbar: rgb(45, 67, 80);
+	--color-custom-navbar: rgb(155, 118, 156);
+}
+
+.app__main__container {
+	display: flex;
+	height: calc(100vh - (var(--navbar-height) + var(--filters-height)));
 }
