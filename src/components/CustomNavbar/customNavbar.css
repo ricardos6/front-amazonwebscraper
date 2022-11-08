@@ -18,3 +18,16 @@
 .customNavbar__title {
 	margin-left: 10px;
 }
+
+.custom-navbar_search-bar {
+    display: flex;
+    gap: 10px
+}
+
+.custom-navbar__search-feedback-validation {
+    display: inline !important;
+}
+
+.custom-navbar_search-container {
+    min-width: 300px;
+}

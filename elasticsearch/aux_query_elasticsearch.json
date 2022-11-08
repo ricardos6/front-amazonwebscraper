@@ -1,0 +1,21 @@
+{
+  "query": {
+      "script_score": {
+          // "query": {
+          //     "match": {
+          //         "message": "elasticsearch"
+          //     }
+          // },
+          "query": {
+              "query_string": {
+                  "query": "*xia*",
+                  "default_field": "full"
+              }
+          },
+          "script": {
+              "source": "doc['rating'].value / 1000000"
+              // "source": "(doc['rating'].value + doc['number_ratings'].value) / 1000000"
+          }
+      }
+  }
+}
