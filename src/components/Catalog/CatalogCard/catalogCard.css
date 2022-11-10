@@ -53,3 +53,7 @@
 .catalog__card.card:hover {
 	border: 1px solid rgb(13, 214, 130);
 }
+
+.catalog__card-body__price {
+	font-weight: normal !important;
+}

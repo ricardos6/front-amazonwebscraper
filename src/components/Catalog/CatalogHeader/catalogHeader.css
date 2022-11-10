@@ -1,0 +1,34 @@
+.catalog-header {
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.catalog-header__verticalDivider {
+	border-bottom: 1px solid rgb(219, 219, 219);
+	width: 100%;
+}
+
+.catalog-header__filters {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.catalog-header__filters__badge {
+	font-size: 14px !important;
+	font-weight: normal !important;
+	height: fit-content !important;
+}
+
+.catalog-header__filters__badge-content {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
+.catalog-header__filters__badge-icon-delete {
+	cursor: pointer;
+}

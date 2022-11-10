@@ -2,6 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Rating from "@mui/material/Rating";
 import Spinner from "react-bootstrap/Spinner";
+import Badge from "react-bootstrap/Badge";
 import "./catalogCard.css";
 
 export const CatalogCard = ({ item, lastBookElementRef, loader }) => {
@@ -21,11 +22,15 @@ export const CatalogCard = ({ item, lastBookElementRef, loader }) => {
 							{item.model_name}
 						</Card.Title>
 						<div className="catalog__card-body__info">
+							<Badge
+								pill
+								bg="success"
+								className="catalog__card-body__price"
+							>{`${item.price}€`}</Badge>
 							<div>{item.brand}</div>
 							<div>{item.cellular_technology}</div>
 							<div>{item.memory_storage}</div>
 							<div>{item.os}</div>
-							<div>{item.price}</div>
 							<div>{item.connectivity}</div>
 							<div>{item.wireless_net_tech}</div>
 							<div>{item.screen_size}</div>
@@ -54,9 +59,8 @@ export const CatalogCard = ({ item, lastBookElementRef, loader }) => {
 								"Not available"
 							)}
 						</div>
-
 						<div className="catalog__card-footer__number-ratings">
-							{item.number_ratings ? `${item.number_ratings} ratings` : ""}
+							{`${item.number_ratings} ratings`}
 						</div>
 					</>
 				</Card.Footer>

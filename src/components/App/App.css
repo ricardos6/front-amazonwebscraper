@@ -2,7 +2,9 @@
 	--navbar-height: 120px;
 	--filters-height: 50px;
 	--leftPanel-width: 280px;
+
 	--color-custom-navbar: rgb(155, 118, 156);
+	--catalog-header: 45px;
 }
 
 .app__main__container {

@@ -5,6 +5,7 @@
     top: 0;
     left: 0;
     overflow-x: hidden;
+    background: rgb(248, 248, 248);
 }
 
 .left-panel__wrapper {
