@@ -29,7 +29,7 @@ function App() {
 			if (observer.current) observer.current.disconnect();
 			observer.current = new IntersectionObserver((entries) => {
 				if (entries[0].isIntersecting && hasMore) {
-					//	do not remove! helpful to understand infinite scroll
+					//	Do not remove! helpful to understand infinite scroll
 					// console.log("node", node);
 					// console.log("entries is intercepted", entries[0]);
 					setCompleteQuery((curr) => ({ ...curr, page: curr.page + 1 }));

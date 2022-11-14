@@ -50,13 +50,21 @@ export const useElasticSearch = (completeQuery) => {
 		[completeQuery.facetFilters]
 	);
 
+	const rangeFiltersTransformed = React.useMemo(() => {
+		return Object.entries(completeQuery.rangeFilters || {})
+			.filter(([_, value]) => value.value !== 0)
+			.map((item) => ({
+				range: { [item[0]]: { [item[1].operation]: item[1].value } },
+			}));
+	}, [completeQuery.rangeFilters]);
+
 	useEffect(() => {
 		const params = {
 			query: {
 				function_score: {
 					query: {
 						bool: {
-							must: queryTransformed,
+							must: queryTransformed.concat(rangeFiltersTransformed),
 							filter: facetFiltersTransformed,
 						},
 					},
@@ -95,7 +103,12 @@ export const useElasticSearch = (completeQuery) => {
 				setLoading(false);
 			})
 			.catch((err) => setError(err));
-	}, [completeQuery, facetFiltersTransformed, queryTransformed]);
+	}, [
+		completeQuery,
+		facetFiltersTransformed,
+		queryTransformed,
+		rangeFiltersTransformed,
+	]);
 
 	return { searchResult, hasMore, loading, error };
 };
