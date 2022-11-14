@@ -37,15 +37,18 @@ export const useElasticSearch = (completeQuery) => {
 	const queryTransformed = React.useMemo(() => {
 		return completeQuery.query === "" || completeQuery.query === undefined
 			? []
-			: [{ match: { model_name: `${completeQuery.query}` } }];
+			: completeQuery.query
+					.split(" ")
+					.map((q) => ({ match: { full: `${q}` } }));
 	}, [completeQuery.query]);
 
-	const facetFiltersTransformed = React.useMemo(() => {
-		const cosa = Object.entries(completeQuery.facetFilters)
-			.filter(([_, value]) => value && value !== "")
-			.map((item) => ({ term: { [item[0]]: item[1] } }));
-		return cosa;
-	}, [completeQuery.facetFilters]);
+	const facetFiltersTransformed = React.useMemo(
+		() =>
+			Object.entries(completeQuery.facetFilters)
+				.filter(([_, value]) => value && value !== "")
+				.map((item) => ({ term: { [item[0]]: item[1] } })),
+		[completeQuery.facetFilters]
+	);
 
 	useEffect(() => {
 		const params = {
