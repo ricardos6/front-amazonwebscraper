@@ -23,6 +23,26 @@ const aggregations = {
 				field: "brand",
 			},
 		},
+		"max-price": {
+			max: {
+				field: "price",
+			},
+		},
+		"min-price": {
+			min: {
+				field: "price",
+			},
+		},
+		"max-screen-size": {
+			max: {
+				field: "screen_size",
+			},
+		},
+		"min-screen-size": {
+			min: {
+				field: "screen_size",
+			},
+		},
 	},
 };
 
@@ -52,10 +72,14 @@ export const useElasticSearch = (completeQuery) => {
 
 	const rangeFiltersTransformed = React.useMemo(() => {
 		return Object.entries(completeQuery.rangeFilters || {})
-			.filter(([_, value]) => value.value !== 0)
-			.map((item) => ({
-				range: { [item[0]]: { [item[1].operation]: item[1].value } },
-			}));
+			.filter(([_, value]) => {
+				return value.gte !== "0" && value.lte !== "0";
+			})
+			.map((item) => {
+				return {
+					range: { [item[0]]: item[1] },
+				};
+			});
 	}, [completeQuery.rangeFilters]);
 
 	useEffect(() => {
@@ -89,20 +113,40 @@ export const useElasticSearch = (completeQuery) => {
 			size: 10,
 		})
 			.then((result) => {
+				if (result?.status !== undefined && result.status !== 200) {
+					setSearchResult(() => ({
+						items: [],
+						aggsInfo: {},
+						totalElements: 0,
+					}));
+					return;
+				}
 				setSearchResult((prevItems) => ({
 					items: [
 						...new Set([
 							...(completeQuery.page > 0 ? prevItems.items : []),
-							...result.hits.hits.map((h) => h._source),
+							...result?.hits?.hits?.map?.((h) => h?._source ?? []),
 						]),
 					],
 					aggsInfo: result.aggregations,
 					totalElements: result.hits.total.value,
+					maxValues: {
+						"max-price": result.aggregations["max-price"].value,
+						"min-price": result.aggregations["min-price"].value,
+					},
 				}));
 				setHasMore(completeQuery.page * 10 + 10 < result.hits.total.value);
 				setLoading(false);
 			})
-			.catch((err) => setError(err));
+			.catch(() => {
+				setSearchResult(() => ({
+					items: [],
+					aggsInfo: {},
+					totalElements: 0,
+				}));
+				setHasMore(false);
+				setLoading(false);
+			});
 	}, [
 		completeQuery,
 		facetFiltersTransformed,

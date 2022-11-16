@@ -33,25 +33,28 @@ export const LeftPanel = ({ aggregations, setCompleteQuery }) => {
 		<div className="left-panel__main">
 			<div className="left-panel__wrapper">
 				<div className="left-panel__inputsWrapper">
-					{Object.entries(_aggregations).map(([key, value]) => {
-						return (
-							<div key={key} className="left-panel__agg-wrapper">
-								<div className="left-panel__agg-title">
-									{aggregationsMapping[key]}
+					{Object.entries(_aggregations)
+						.filter(([key]) => Object.keys(aggregationsMapping).includes(key))
+						.map(([key, value]) => {
+							return (
+								<div key={key} className="left-panel__agg-wrapper">
+									<div className="left-panel__agg-title">
+										{aggregationsMapping[key]}
+									</div>
+									<div className="left-panel__agg-buckets">
+										{!!value.buckets &&
+											value?.buckets.map((agg) => (
+												<Button
+													variant="link"
+													key={`${agg.key}`}
+													className="left-panel__agg-link"
+													onClick={() => onClickAggregation(key, agg.key)}
+												>{`${agg.key} (${agg.doc_count})`}</Button>
+											))}
+									</div>
 								</div>
-								<div className="left-panel__agg-buckets">
-									{value.buckets.map((agg) => (
-										<Button
-											variant="link"
-											key={`${agg.key}`}
-											className="left-panel__agg-link"
-											onClick={() => onClickAggregation(key, agg.key)}
-										>{`${agg.key} (${agg.doc_count})`}</Button>
-									))}
-								</div>
-							</div>
-						);
-					})}
+							);
+						})}
 				</div>
 			</div>
 		</div>

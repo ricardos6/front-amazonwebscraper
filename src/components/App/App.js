@@ -45,7 +45,11 @@ function App() {
 	return (
 		<div className="app__main">
 			<CustomNavbar setCompleteQuery={setCompleteQuery} />
-			<Filters setCompleteQuery={setCompleteQuery} />
+			<Filters
+				setCompleteQuery={setCompleteQuery}
+				aggsInfo={searchResult.aggsInfo}
+				maxValues={searchResult.maxValues}
+			/>
 			<div className="app__main__container">
 				<LeftPanel
 					aggregations={searchResult.aggsInfo}

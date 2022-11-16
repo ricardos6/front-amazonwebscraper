@@ -43,24 +43,13 @@ const starsFilterOptions = {
 
 export const StarsFilter = ({ setCompleteQuery }) => {
 	const onChange = (key, value, operation) => {
-		setCompleteQuery((curr) => {
-			console.log("filter onChange", {
-				...curr,
-				rangeFilters: {
-					...curr.rangeFilters,
-					[key]: { [operation]: value },
-				},
-			});
-			debugger;
-
-			return {
-				...curr,
-				rangeFilters: {
-					...curr.rangeFilters,
-					[key]: { operation: operation, value: value },
-				},
-			};
-		});
+		setCompleteQuery((curr) => ({
+			...curr,
+			rangeFilters: {
+				...curr.rangeFilters,
+				[key]: { gte: value },
+			},
+		}));
 	};
 
 	return (
@@ -72,7 +61,6 @@ export const StarsFilter = ({ setCompleteQuery }) => {
 					className="more-filters__filter"
 					defaultValue={0}
 					onChange={(e) => {
-						console.log(e.target.value);
 						onChange("rating", e.target.value, "gte");
 					}}
 				>
