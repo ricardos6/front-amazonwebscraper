@@ -43,16 +43,25 @@ const aggregations = {
 				field: "screen_size",
 			},
 		},
+		"min-number-ratings": {
+			min: {
+				field: "number_ratings",
+			},
+		},
+		"max-number-ratings": {
+			max: {
+				field: "number_ratings",
+			},
+		},
 	},
 };
 
 const searchResultInitialInfo = { items: [], aggsInfo: {}, totalElements: 0 };
 
-export const useElasticSearch = (completeQuery) => {
+export const useElasticSearch = (completeQuery, minMaxValuesRef) => {
 	const [searchResult, setSearchResult] = useState(searchResultInitialInfo);
 	const [hasMore, setHasMore] = useState(false);
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
 
 	const queryTransformed = React.useMemo(() => {
 		return completeQuery.query === "" || completeQuery.query === undefined
@@ -121,6 +130,22 @@ export const useElasticSearch = (completeQuery) => {
 					}));
 					return;
 				}
+				if (minMaxValuesRef?.current === undefined) {
+					minMaxValuesRef.current = {
+						price: {
+							max: result.aggregations["max-price"],
+							min: result.aggregations["min-price"],
+						},
+						screen_size: {
+							max: result.aggregations["max-screen-size"],
+							min: result.aggregations["min-screen-size"],
+						},
+						number_ratings: {
+							max: result.aggregations["max-number-ratings"],
+							min: result.aggregations["min-number-ratings"],
+						},
+					};
+				}
 				setSearchResult((prevItems) => ({
 					items: [
 						...new Set([
@@ -150,9 +175,10 @@ export const useElasticSearch = (completeQuery) => {
 	}, [
 		completeQuery,
 		facetFiltersTransformed,
+		minMaxValuesRef,
 		queryTransformed,
 		rangeFiltersTransformed,
 	]);
 
-	return { searchResult, hasMore, loading, error };
+	return { searchResult, hasMore, loading };
 };

@@ -1,16 +1,20 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import { split } from "../utils";
-import "../filters.css";
 
-export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
+export const ScreenSizeFilter = ({ setCompleteQuery, minMaxValues }) => {
 	const listOptionsCalculated = React.useMemo(() => {
-		if (minMaxValues?.price) {
+		if (minMaxValues?.screen_size) {
 			const values = split(
-				minMaxValues?.price?.min.value,
-				minMaxValues?.price?.max.value,
+				minMaxValues?.screen_size?.min.value,
+				minMaxValues?.screen_size?.max.value,
 				6
 			);
+			console.log("values split", values);
+
+			if (values[0] === 0) {
+				values.splice(0, 1);
+			}
 			const listOrdered = [
 				{
 					label: "Any",
@@ -20,7 +24,7 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 			].concat(
 				values.map((v, idx, array) => {
 					return {
-						label: idx === 0 ? `${0}€ - ${v}€` : `${array[idx - 1]}€ - ${v}€`,
+						label: idx === 0 ? `${0} - ${v}` : `${array[idx - 1]} - ${v}`,
 						minValue: idx === 0 ? 0 : array[idx - 1],
 						maxValue: v,
 					};
@@ -29,11 +33,16 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 
 			return listOrdered || [];
 		}
-	}, [minMaxValues?.price]);
+	}, [minMaxValues?.screen_size]);
+
+	console.log("listOptionsCalculated", listOptionsCalculated);
 
 	const onChange = (key, value) => {
 		setCompleteQuery((curr) => {
-			const { price, ...rest } = { price: undefined, ...curr.rangeFilters };
+			const { screen_size, ...rest } = {
+				screen_size: undefined,
+				...curr.rangeFilters,
+			};
 			return {
 				...curr,
 				rangeFilters: {
@@ -42,17 +51,10 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 						gte: listOptionsCalculated?.[value]?.minValue,
 						lte: listOptionsCalculated?.[value]?.maxValue,
 					},
-					...(listOptionsCalculated?.[value]?.maxValue === 0
+					...(listOptionsCalculated?.[value]?.minValue === 0
 						? {
 								[key]: {
 									gte: 0,
-								},
-						  }
-						: {}),
-					...(listOptionsCalculated?.[value]?.maxValue === -1
-						? {
-								[key]: {
-									gte: 2000,
 								},
 						  }
 						: {}),
@@ -60,22 +62,21 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 			};
 		});
 	};
-
 	return (
 		<span>
 			<Form.Group>
-				<Form.Label className="filter-label">Price</Form.Label>
+				<Form.Label className="filter-label">Screen size</Form.Label>
 				<Form.Select
 					size="sm"
 					className="more-filters__filter"
 					defaultValue={0}
 					onChange={(e) => {
-						onChange("price", e.target.value);
+						onChange("screen_size", e.target.value);
 					}}
 				>
 					{listOptionsCalculated ? (
 						listOptionsCalculated
-							.sort((a, b) => a.maxValue < b.maxValue)
+							.sort((a, b) => a.maxValue > b.maxValue)
 							.map((item, idx) => {
 								return (
 									<option key={idx} label={item.label} value={idx}>

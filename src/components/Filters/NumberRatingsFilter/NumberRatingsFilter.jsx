@@ -3,12 +3,12 @@ import Form from "react-bootstrap/Form";
 import { split } from "../utils";
 import "../filters.css";
 
-export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
+export const NumberRatingsFilter = ({ setCompleteQuery, minMaxValues }) => {
 	const listOptionsCalculated = React.useMemo(() => {
-		if (minMaxValues?.price) {
+		if (minMaxValues?.number_ratings) {
 			const values = split(
-				minMaxValues?.price?.min.value,
-				minMaxValues?.price?.max.value,
+				minMaxValues?.number_ratings?.min.value,
+				minMaxValues?.number_ratings?.max.value,
 				6
 			);
 			const listOrdered = [
@@ -20,7 +20,7 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 			].concat(
 				values.map((v, idx, array) => {
 					return {
-						label: idx === 0 ? `${0}€ - ${v}€` : `${array[idx - 1]}€ - ${v}€`,
+						label: idx === 0 ? `${0} - ${v}` : `${array[idx - 1]} - ${v}`,
 						minValue: idx === 0 ? 0 : array[idx - 1],
 						maxValue: v,
 					};
@@ -29,11 +29,14 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 
 			return listOrdered || [];
 		}
-	}, [minMaxValues?.price]);
+	}, [minMaxValues?.number_ratings]);
 
 	const onChange = (key, value) => {
 		setCompleteQuery((curr) => {
-			const { price, ...rest } = { price: undefined, ...curr.rangeFilters };
+			const { number_ratings, ...rest } = {
+				number_ratings: undefined,
+				...curr.rangeFilters,
+			};
 			return {
 				...curr,
 				rangeFilters: {
@@ -64,13 +67,13 @@ export const PriceFilter = ({ setCompleteQuery, minMaxValues }) => {
 	return (
 		<span>
 			<Form.Group>
-				<Form.Label className="filter-label">Price</Form.Label>
+				<Form.Label className="filter-label">Number of ratings</Form.Label>
 				<Form.Select
 					size="sm"
 					className="more-filters__filter"
 					defaultValue={0}
 					onChange={(e) => {
-						onChange("price", e.target.value);
+						onChange("number_ratings", e.target.value);
 					}}
 				>
 					{listOptionsCalculated ? (

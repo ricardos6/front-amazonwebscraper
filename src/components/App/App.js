@@ -19,8 +19,12 @@ function App() {
 		page: 0,
 	});
 
-	const { searchResult, hasMore, loading, error } =
-		useElasticSearch(completeQuery);
+	const minMaxValuesRef = useRef();
+
+	const { searchResult, hasMore, loading } = useElasticSearch(
+		completeQuery,
+		minMaxValuesRef
+	);
 
 	const observer = useRef();
 	const lastBookElementRef = useCallback(
@@ -49,6 +53,7 @@ function App() {
 				setCompleteQuery={setCompleteQuery}
 				aggsInfo={searchResult.aggsInfo}
 				maxValues={searchResult.maxValues}
+				minMaxValues={minMaxValuesRef.current}
 			/>
 			<div className="app__main__container">
 				<LeftPanel
